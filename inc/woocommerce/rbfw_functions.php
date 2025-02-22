@@ -208,6 +208,7 @@
 			$duration_price_individual = $duration_price_info['duration_price'];
 			$duration_price            = $duration_price_info['duration_price'] * $rbfw_item_quantity;
 			$total_days                = $duration_price_info['total_days'];
+			$discount_percent		  = $duration_price_info['discount_percent'];
 			/* service price start for multiple days */
 			$rbfw_service_price      = 0;
 
@@ -285,6 +286,7 @@
 					$discount_amount = $discount_arr['discount_amount'];
 				}
 			}
+			$discount_amount = $discount_amount + $duration_price * $discount_percent/100;
 			$security_deposit                                 = rbfw_security_deposit( $rbfw_id, $sub_total_price );
 			$total_price                                      = $sub_total_price - $discount_amount;
 			$rbfw_ticket_info                                 = rbfw_cart_ticket_info( $rbfw_id, $start_date, $end_date, $start_time, $end_time, $rbfw_pickup_point, $rbfw_dropoff_point, $rbfw_item_quantity, $rbfw_duration_price, $rbfw_service_price + $rbfw_extra_service_price, $total_price, $rbfw_service_info, $variation_info, $discount_type, $discount_amount, $rbfw_regf_info, $rbfw_service_infos, $total_days, $security_deposit );

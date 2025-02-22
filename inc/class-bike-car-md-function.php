@@ -73,6 +73,8 @@ if ( ! class_exists( 'RBFW_BikeCarMd_Function' ) ) {
 
             $duration_price = $duration_price_info['duration_price'] * $item_quantity;
             $total_days = $duration_price_info['total_days'];
+            $discount_percent = $duration_price_info['discount_percent'];
+            $discount_name = $duration_price_info['discount_name'];
             $actual_days = $duration_price_info['actual_days'];
             $hours = $duration_price_info['hours'];
 
@@ -89,16 +91,13 @@ if ( ! class_exists( 'RBFW_BikeCarMd_Function' ) ) {
 
             $sub_total_price = (float)$duration_price + (float)$service_cost + (float)$rbfw_service_price;
             $security_deposit = rbfw_security_deposit($post_id,$sub_total_price);
-
+            
 
             $discount_amount = 0;
-            if (is_plugin_active('booking-and-rental-manager-discount-over-x-days/rent-discount-over-x-days.php')){
-                if(function_exists('rbfw_get_discount_array')){
-                    $discount_arr = rbfw_get_discount_array($post_id, $total_days, $sub_total_price,$item_quantity);
-                    $discount_amount = isset($discount_arr['discount_amount'])?$discount_arr['discount_amount']:0;
-                }
+            if (is_plugin_active('booking-and-rental-manager-discount-over-x-days/rent-discount-over-x-days.php') && function_exists('rbfw_get_discount_array')){
+                $discount_arr = rbfw_get_discount_array($post_id, $total_days, $sub_total_price,$item_quantity);
+                $discount_amount = isset($discount_arr['discount_amount'])?$discount_arr['discount_amount']:0;
             }
-
             $duration = '';
 
             if ( $actual_days > 0 ) {
@@ -113,6 +112,7 @@ if ( ! class_exists( 'RBFW_BikeCarMd_Function' ) ) {
                 $duration .= $actual_days > 1 ? $actual_days.' '.rbfw_string_return('rbfw_text_days',esc_html__('Days','booking-and-rental-manager-for-woocommerce')).' ' : $actual_days.' '.rbfw_string_return('rbfw_text_day',esc_html__('Day','booking-and-rental-manager-for-woocommerce')).' ';
             }
 
+            $discount_amount = $discount_amount + $duration_price * $discount_percent/100;
             echo wp_json_encode( array(
                 'duration_price' => $duration_price,
                 'duration_price_html' => wc_price($duration_price),
@@ -122,7 +122,8 @@ if ( ! class_exists( 'RBFW_BikeCarMd_Function' ) ) {
                 'service_cost_html' => wc_price($service_cost+$rbfw_service_price),
                 'sub_total_price_html' => wc_price($sub_total_price),
                 'discount' => $discount_amount,
-                'discount_html' => wc_price((float)$discount_amount),
+                'discount_html' => "-" . wc_price((float)$discount_amount),
+                'discount_name' => esc_html($discount_name) . "<span></span>",
                 'security_deposit_desc' => $security_deposit['security_deposit_desc'],
                 'security_deposit_amount' => $security_deposit['security_deposit_amount'],
                 'total_price' => (float)$sub_total_price + (float)$security_deposit['security_deposit_amount'] - (float)$discount_amount,

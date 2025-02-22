@@ -174,7 +174,7 @@ if($rbfw_time_slot_switch == 'on' && !empty($availabe_time) && $enable_hourly_ra
                 $discount = $rbfw_additional_day_price['rbfw_daily_price'];
             ?>
                 <tr>
-                    <td><strong>&ge;<?php echo wp_kses_post($duration); ?> <?php echo esc_html($rbfw->get_option_trans('rbfw_text_day', 'rbfw_basic_translation_settings', __('day', 'booking-and-rental-manager-for-woocommerce'))); ?></strong></td>
+                    <td><strong>&ge;<?php echo wp_kses_post($duration); ?> <?php echo esc_html($rbfw->get_option_trans('rbfw_text_days', 'rbfw_basic_translation_settings', __('days', 'booking-and-rental-manager-for-woocommerce'))); ?></strong></td>
                     <td>-<?php echo wp_kses_post($discount); ?>% <?php echo esc_html($rbfw->get_option_trans('rbfw_text_discount', 'rbfw_basic_translation_settings', __('discount', 'booking-and-rental-manager-for-woocommerce'))); ?></td>
                 </tr>
             <?php }}?>

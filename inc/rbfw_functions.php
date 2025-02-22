@@ -2581,7 +2581,8 @@
             $actual_days = $diff->days;
 
             $rbfw_additional_day_prices = get_post_meta( $post_id, 'rbfw_additional_day_prices', true );
-
+			$discount_percent = 0;
+			$discount_name = esc_html($rbfw->get_option_trans('rbfw_text_discount', 'rbfw_basic_translation_settings', __('Discount','booking-and-rental-manager-for-woocommerce')));
 
 
             if ( is_plugin_active( 'multi-day-price-saver-addon-for-wprently/additional-day-price.php' ) && (!(empty($rbfw_additional_day_prices))) ) {
@@ -2592,15 +2593,16 @@
                 }
                 $hours = 0;
 				$daily_rate = get_post_meta( $post_id, 'rbfw_daily_rate', true );
-				$discount = 0;
 				foreach ( $rbfw_additional_day_prices as $rbfw_additional_day_price ) {
 					$rbfw_start_day = $rbfw_additional_day_price['rbfw_start_day'];
-					if ( $rbfw_start_day <= $total_days && $rbfw_additional_day_price['rbfw_daily_price'] > $discount ) {
-						$discount = $rbfw_additional_day_price['rbfw_daily_price'];
+					if ( $rbfw_start_day <= $total_days && $rbfw_additional_day_price['rbfw_daily_price'] > $discount_percent ) {
+						$discount_percent = $rbfw_additional_day_price['rbfw_daily_price'];
+						$discount_name = " {$rbfw_start_day}" . esc_html($rbfw->get_option_trans('rbfw_text_days', 'rbfw_basic_translation_settings', __('days', 'booking-and-rental-manager-for-woocommerce')));
 					}
 				}
-				
-				$duration_price = $total_days * $daily_rate * (1 - $discount/100);
+
+				$discount_name = esc_html($rbfw->get_option_trans('rbfw_text_discount', 'rbfw_basic_translation_settings', __('Discount','booking-and-rental-manager-for-woocommerce'))) . $discount_name;
+				$duration_price = $total_days * $daily_rate;
 
             }else{
 
@@ -2751,7 +2753,7 @@
 
 		}
 
-		return array( 'duration_price' => $duration_price, 'total_days' => $total_days, 'actual_days' => $actual_days, 'hours' => $hours );
+		return array( 'duration_price' => $duration_price, 'total_days' => $total_days, 'actual_days' => $actual_days, 'hours' => $hours, 'discount_percent' => $discount_percent, 'discount_name' => $discount_name );
 	}
 	function getAllDates( $startingDate, $endingDate ) {
 		$datesArray   = [];
