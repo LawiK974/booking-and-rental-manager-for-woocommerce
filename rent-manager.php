@@ -1,11 +1,11 @@
 <?php
 	/**
 	 * Plugin Name: Booking and Rental Manager for Bike | Car | Resort | Appointment | Dress | Equipment
-	 * Plugin URI: https://mage-people.com
+	 * Plugin URI: https://github.com/LawiK974/booking-and-rental-manager-for-woocommerce
 	 * Description: A complete booking & rental solution for WordPress.
-	 * Version: 2.2.7
-	 * Author: MagePeople Team
-	 * Author URI: https://www.mage-people.com/
+	 * Version: 2.2.7-fork
+	 * Author: LawiK974
+	 * Author URI: https://github.com/LawiK974/
 	 * Text Domain: booking-and-rental-manager-for-woocommerce
 	 * License: GPL v2 or later
 	 * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -73,17 +73,10 @@
 
 			public function plugin_row_meta( $links_array, $plugin_file_name ) {
 				if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-					if ( ! is_plugin_active( 'booking-and-rental-manager-for-woocommerce/rent-pro.php' ) ) {
-						$rbfw_links = array(
-							'docs'    => '<a href="' . esc_url( "https://docs.mage-people.com/rent-and-booking-manager/" ) . '" target="_blank">' . __( 'Docs', 'booking-and-rental-manager-for-woocommerce' ) . '</a>',
-							'support' => '<a href="' . esc_url( "https://mage-people.com/my-account" ) . '" target="_blank">' . __( 'Support', 'booking-and-rental-manager-for-woocommerce' ) . '</a>',
-						);
-					} else {
-						$rbfw_links = array(
-							'docs'    => '<a href="' . esc_url( "https://docs.mage-people.com/rent-and-booking-manager/" ) . '" target="_blank">' . __( 'Docs', 'booking-and-rental-manager-for-woocommerce' ) . '</a>',
-							'support' => '<a href="' . esc_url( "https://mage-people.com/my-account" ) . '" target="_blank">' . __( 'Support', 'booking-and-rental-manager-for-woocommerce' ) . '</a>'
-						);
-					}
+					$rbfw_links = array(
+						'docs'    => '<a href="' . esc_url( "https://docs.mage-people.com/rent-and-booking-manager/" ) . '" target="_blank">' . __( 'Docs', 'booking-and-rental-manager-for-woocommerce' ) . '</a>',
+						'support' => '<a href="' . esc_url( "https://mage-people.com/my-account" ) . '" target="_blank">' . __( 'Support', 'booking-and-rental-manager-for-woocommerce' ) . '</a>',
+					);
 					$links_array = array_merge( $links_array, $rbfw_links );
 				}
 
@@ -92,12 +85,10 @@
 
 			public function plugin_action_link( $links_array, $plugin_file_name ) {
 				if ( strpos( $plugin_file_name, basename( __FILE__ ) ) ) {
-					if ( ! is_plugin_active( 'booking-and-rental-manager-for-woocommerce/rent-pro.php' ) ) {
-						array_unshift( $links_array, '<a href="' . esc_url( admin_url() ) . 'edit.php?post_type=rbfw_item&page=rbfw_settings_page">' . __( 'Settings', 'booking-and-rental-manager-for-woocommerce' ) . '</a>' );
-						array_unshift( $links_array, '<a href="' . esc_url( "https://mage-people.com/product/booking-and-rental-manager-for-woocommerce/" ) . '" target="_blank" class="rbfw_plugin_pro_meta_link">' . __( 'Get Booking and Rental Manager Pro', 'booking-and-rental-manager-for-woocommerce' ) . '</a>' );
-					} else {
-						array_unshift( $links_array, '<a href="' . esc_url( admin_url() ) . 'edit.php?post_type=rbfw_item&page=rbfw_settings_page">' . __( 'Settings', 'booking-and-rental-manager-for-woocommerce' ) . '</a>' );
-					}
+					array_unshift( $links_array, '<a href="' . esc_url( admin_url() ) . 'edit.php?post_type=rbfw_item&page=rbfw_settings_page">' . __( 'Settings', 'booking-and-rental-manager-for-woocommerce' ) . '</a>' );
+					// if ( ! is_plugin_active( 'booking-and-rental-manager-for-woocommerce/rent-pro.php' ) ) {
+					// 	array_unshift( $links_array, '<a href="' . esc_url( "https://mage-people.com/product/booking-and-rental-manager-for-woocommerce/" ) . '" target="_blank" class="rbfw_plugin_pro_meta_link">' . __( 'Get Booking and Rental Manager Pro', 'booking-and-rental-manager-for-woocommerce' ) . '</a>' );
+					// }
 				}
 
 				return $links_array;
@@ -114,17 +105,17 @@
 				if ( ! empty( $_POST['post_type'] ) && sanitize_text_field( wp_unslash( $_POST['post_type'] ) ) != 'rbfw_item' ) {
 					return;
 				}
-				flush_rewrite_rules(); 
+				flush_rewrite_rules();
 			}
 
 			function flush_rules_rbfw_post_list_page() {
-				
+
 				// if ( ! ( isset( $_POST['nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'rbfw_ajax_action' ) ) ) {
 				// 	return;
 				// }
 
 				if ( isset( $_GET['post_type'] ) && sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) == 'rbfw_item' ) {
-					flush_rewrite_rules(); 
+					flush_rewrite_rules();
 				}
 			}
 
@@ -133,7 +124,7 @@
 				$rbfw_quick_setup_done = get_option( 'rbfw_quick_setup_done' ) ? get_option( 'rbfw_quick_setup_done' ) : 'no';
 				$first_redirect = get_option( 'first_redirect' ) ? get_option( 'first_redirect' ) : 'no';
 
-				if ( $rbfw_quick_setup_done == 'no' && $first_redirect == 'no' ) {						
+				if ( $rbfw_quick_setup_done == 'no' && $first_redirect == 'no' ) {
 						wp_redirect( esc_url_raw( admin_url( 'edit.php?post_type=rbfw_item&page=rbfw_quick_setup' ) ) );
 						update_option( 'first_redirect', 'yes' );
 						exit();
