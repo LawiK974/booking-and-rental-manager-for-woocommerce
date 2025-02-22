@@ -13,6 +13,8 @@ $enable_daily_rate = get_post_meta($rbfw_id, 'rbfw_enable_daily_rate', true) ? g
 $enable_hourly_rate = get_post_meta($rbfw_id, 'rbfw_enable_hourly_rate', true) ? get_post_meta($rbfw_id, 'rbfw_enable_hourly_rate', true) : 'no';
 $rbfw_enable_daywise_price = get_post_meta($rbfw_id, 'rbfw_enable_daywise_price', true) ? get_post_meta($rbfw_id, 'rbfw_enable_daywise_price', true) : 'no';
 
+$rbfw_additional_day_prices = get_post_meta( $rbfw_id, 'rbfw_additional_day_prices', true );
+
 //$availabe_time = rbfw_get_available_times($rbfw_id);
 $availabe_time = get_post_meta($rbfw_id, 'rdfw_available_time', true) ? maybe_unserialize(get_post_meta($rbfw_id, 'rdfw_available_time', true)) : [];
 
@@ -166,6 +168,16 @@ if($rbfw_time_slot_switch == 'on' && !empty($availabe_time) && $enable_hourly_ra
                 <td><strong><?php echo esc_html($rbfw->get_option_trans('rbfw_text_daily_rate', 'rbfw_basic_translation_settings', __('Daily Rate', 'booking-and-rental-manager-for-woocommerce'))); ?></strong></td>
                 <td><?php echo wp_kses_post(wc_price($daily_rate)); ?> / <?php echo esc_html($rbfw->get_option_trans('rbfw_text_day', 'rbfw_basic_translation_settings', __('day', 'booking-and-rental-manager-for-woocommerce'))); ?></td>
             </tr>
+            <?php if ( is_plugin_active( 'multi-day-price-saver-addon-for-wprently/additional-day-price.php' ) && (!(empty($rbfw_additional_day_prices))) ) {
+                foreach ( $rbfw_additional_day_prices as $rbfw_additional_day_price ) {
+                $duration = $rbfw_additional_day_price['rbfw_start_day'];
+                $discount = $rbfw_additional_day_price['rbfw_daily_price'];
+            ?>
+                <tr>
+                    <td><strong>&ge;<?php echo wp_kses_post($duration); ?> <?php echo esc_html($rbfw->get_option_trans('rbfw_text_day', 'rbfw_basic_translation_settings', __('day', 'booking-and-rental-manager-for-woocommerce'))); ?></strong></td>
+                    <td>-<?php echo wp_kses_post($discount); ?>% <?php echo esc_html($rbfw->get_option_trans('rbfw_text_discount', 'rbfw_basic_translation_settings', __('discount', 'booking-and-rental-manager-for-woocommerce'))); ?></td>
+                </tr>
+            <?php }}?>
         <?php } ?>
         <?php if ($enable_hourly_rate == 'yes') { ?>
             <tr>
