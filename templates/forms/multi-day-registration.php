@@ -535,7 +535,7 @@ if($rbfw_time_slot_switch == 'on' && !empty($availabe_time) && $enable_hourly_ra
                                 <span class="price-figure" data-price="">
                                     </span>
                             </li>
-                            <li class="resource-costing rbfw-cond">
+                            <li class="resource-costing rbfw-cond" style="display:none">
                                 <?php echo esc_html($rbfw->get_option_trans('rbfw_text_resource_cost', 'rbfw_basic_translation_settings', __('Resource Cost','booking-and-rental-manager-for-woocommerce'))); ?>
                                 <span class="price-figure" data-price="">
                                     </span>
