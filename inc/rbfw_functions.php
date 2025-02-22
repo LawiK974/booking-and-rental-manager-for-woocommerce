@@ -2591,25 +2591,16 @@
                     $total_days = $total_days + 1;
                 }
                 $hours = 0;
-
-                for ( $i = 1; $i < $total_days+1; $i ++ ) {
-
-                    foreach ( $rbfw_additional_day_prices as $rbfw_additional_day_price ) {
-                        $rbfw_start_day = $rbfw_additional_day_price['rbfw_start_day'];
-                        $rbfw_end_day = $rbfw_additional_day_price['rbfw_end_day'];
-
-                        $additional_days_array     = range( $rbfw_start_day, $rbfw_end_day );
-
-                        if ( in_array( $i, $additional_days_array ) ) {
-                            $daily_rate = $rbfw_additional_day_price['rbfw_daily_price'];
-                        } else {
-                            $daily_rate = get_post_meta( $post_id, 'rbfw_daily_rate', true );
-                        }
-
-                    }
-                    $duration_price = $duration_price + $daily_rate;
-                }
-
+				$daily_rate = get_post_meta( $post_id, 'rbfw_daily_rate', true );
+				$discount = 0;
+				foreach ( $rbfw_additional_day_prices as $rbfw_additional_day_price ) {
+					$rbfw_start_day = $rbfw_additional_day_price['rbfw_start_day'];
+					if ( $rbfw_start_day <= $total_days && $rbfw_additional_day_price['rbfw_daily_price'] > $discount ) {
+						$discount = $rbfw_additional_day_price['rbfw_daily_price'];
+					}
+				}
+				
+				$duration_price = $total_days * $daily_rate * (1 - $discount/100);
 
             }else{
 
