@@ -108,7 +108,7 @@
                                 <td><?php echo esc_html( ! empty( $rbfw_end_datetime ) ? date_i18n( 'F j, Y g:i a', strtotime( $rbfw_end_datetime ) ) : '' ); ?></td>
                                 <td><span class="rbfw_order_status <?php echo esc_attr( $status ); ?>"><?php echo esc_html( $status ) ;  ?></span></td>
                                 <td><?php echo wp_kses_post( wc_price( $total_price ) ); ?></td>
-								<?php if ( function_exists( 'rbfw_pro_tab_menu_list' ) ) { ?>
+								<?php if ( function_exists( 'rbfw_pro_tab_menu_list' ) || true) { ?>
                                     <td>
                                         <a href="javascript:void(0);" class="rbfw_order_view_btn" data-post-id="<?php echo esc_attr( $post_id ); ?>">
                                             <i class="fas fa-pen-to-square"></i>
