@@ -26,8 +26,8 @@ if( ! class_exists('RBFW_Custom_Post')){
                 case 'rbfw_item_type':
                     $rbfw_item_type = get_post_meta($post_id,'rbfw_item_type',true);
                     $item_type = [
-						'bike_car_sd' => 'Bike/Car for single day',
-						'bike_car_md' => 'Bike/Car for multiple day',
+						'bike_car_sd' => 'Item for single day',
+						'bike_car_md' => 'Item for multiple day',
 						'resort' => 'Resort',
 						'equipment' => 'Equipment',
 						'dress' => 'Dress',

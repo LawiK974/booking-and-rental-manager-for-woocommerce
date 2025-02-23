@@ -855,10 +855,10 @@
 	function rbfw_get_type_label( $slug ) {
 		switch ( $slug ) {
 			case 'bike_car_sd':
-				return 'Bike/Car for single day';
+				return 'Item for single day';
 				break;
 			case 'bike_car_md':
-				return 'Bike/Car for multiple day';
+				return 'Item for multiple day';
 				break;
 			case 'resort':
 				return 'Resort';
