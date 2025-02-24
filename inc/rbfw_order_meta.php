@@ -425,15 +425,15 @@ function rbfw_order_meta_box_callback() {
                         </select>
                     </td>
                 </tr>
-                <tr class="rbfw_pickup_note" style="display: none">
+                <tr class="rbfw_pickup_note">
                     <td><strong><?php esc_html_e( 'Pick Up Note', 'booking-and-rental-manager-for-woocommerce' ); ?></strong></td>
                     <td><textarea name="rbfw_pickup_note" placeholder="Pickup Note" cols="50" rows="3"><?php echo esc_textarea( $rbfw_pickup_note ); ?></textarea></td>
                 </tr>
-                <tr class="rbfw_return_note" style="display: none">
+                <tr class="rbfw_return_note">
                     <td><strong><?php esc_html_e( 'Return Note', 'booking-and-rental-manager-for-woocommerce' ); ?></strong></td>
                     <td><textarea name="rbfw_return_note" placeholder="Return Note" cols="50" rows="3"><?php echo esc_textarea( $rbfw_return_note ); ?></textarea></td>
                 </tr>
-                <tr class="rbfw_return_security_deposit_amount" style="display: none">
+                <tr class="rbfw_return_security_deposit_amount">
                     <td><strong><?php esc_html_e( 'Return Security Deposit', 'booking-and-rental-manager-for-woocommerce' ); ?></strong></td>
                     <td><input type="number" value="<?php echo esc_attr( $rbfw_return_security_deposit_amount ); ?>" name="rbfw_return_security_deposit_amount" placeholder="Return Security Deposit"></td>
                 </tr>
@@ -482,7 +482,7 @@ function rbfw_order_meta_box_callback() {
                 </tr>
                 </tbody>
             </table>
-            <table class="wp-list-table widefat fixed striped table-view-list" style="display: none">
+            <table class="wp-list-table widefat fixed striped table-view-list">
                 <thead>
                 <tr>
                     <th colspan="2"><?php rbfw_string( 'rbfw_text_billing_information', esc_html__( 'Billing Information', 'booking-and-rental-manager-for-woocommerce' ) ); ?></th>
@@ -554,7 +554,7 @@ function rbfw_order_meta_box_callback() {
                 $rbfw_regf_info          = ! empty( $ticket_info['rbfw_regf_info'] ) ? $ticket_info['rbfw_regf_info'] : [];
                 /* End  loop*/
                 ?>
-                <table class="wp-list-table widefat fixed striped table-view-list" style="display: none">
+                <table class="wp-list-table widefat fixed striped table-view-list">
                     <thead>
                     <tr>
                         <th colspan="2"><?php rbfw_string( 'rbfw_text_item_information', esc_html__( 'Item Information', 'booking-and-rental-manager-for-woocommerce' ) );
@@ -835,7 +835,7 @@ function rbfw_order_meta_box_callback() {
                 $subtotal = rbfw_mps_price( $subtotal );
             }
             ?>
-            <table class="wp-list-table widefat fixed striped table-view-list" style="display: none">
+            <table class="wp-list-table widefat fixed striped table-view-list">
                 <thead>
                 <tr>
                     <th colspan="2"><?php rbfw_string( 'rbfw_text_total', esc_html__( 'Summary', 'booking-and-rental-manager-for-woocommerce' ) ); ?></th>
@@ -845,7 +845,7 @@ function rbfw_order_meta_box_callback() {
                 <tr>
                     <td><strong><?php rbfw_string( 'rbfw_text_summary', esc_html__( 'Subtotal', 'booking-and-rental-manager-for-woocommerce' ) );
                             echo ':'; ?></strong></td>
-                    <td><?php echo esc_html( $subtotal ); ?></td>
+                    <td><?php echo wp_kses_post($subtotal); ?></td>
                 </tr>
                 <tr>
                     <td><strong><?php rbfw_string( 'rbfw_text_tax', esc_html__( 'Tax', 'booking-and-rental-manager-for-woocommerce' ) );

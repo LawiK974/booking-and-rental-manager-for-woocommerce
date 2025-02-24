@@ -840,8 +840,8 @@
 		$billing_phone   = $order->get_billing_phone();
 		$billing_address = $order->get_shipping_address_1() . ' ' . $order->get_shipping_address_2();
 		$order_status    = $order->get_status();
-		$payment_method  = isset( $order_meta['_payment_method_title'][0] ) ? $order_meta['_payment_method_title'][0] : '';
-		$user_id         = isset( $order_meta['_customer_user'][0] ) ? $order_meta['_customer_user'][0] : '';
+		$payment_method  = $order->get_payment_method_title();
+		$user_id         = $order->get_user_id();
 		foreach ( $ticket_info as $_ticket ) {
 			$qty = 1;
 			for ( $key = 0; $key < $qty; $key ++ ) {
