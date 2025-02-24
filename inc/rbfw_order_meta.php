@@ -396,7 +396,7 @@ function rbfw_order_meta_box_callback() {
     $order_no       = get_post_meta( $order_id, 'rbfw_order_id', true );
     $mps_tax_switch = $rbfw->get_option_trans( 'rbfw_mps_tax_switch', 'rbfw_basic_payment_settings', 'off' );
     $grand_total    = ! empty( get_post_meta( $order_id, 'rbfw_ticket_total_price', true ) ) ? rbfw_mps_price( get_post_meta( $order_id, 'rbfw_ticket_total_price', true ) ) : '';
-    $rbfw_order_tax = ! empty( get_post_meta( $order_id, 'rbfw_order_tax', true ) ) ? rbfw_mps_price( get_post_meta( $order_id, 'rbfw_order_tax', true ) ) : '';
+    $rbfw_order_tax = ! empty( get_post_meta( $order_id, 'rbfw_order_tax', true ) ) ? rbfw_mps_price( get_post_meta( $order_id, 'rbfw_order_tax', true ) ) : rbfw_mps_price(0);
     ?>
     <div class="rbfw_order_meta_box_wrap">
         <div class="rbfw_order_meta_box_head">
@@ -829,6 +829,7 @@ function rbfw_order_meta_box_callback() {
             $is_tax_inclusive = get_option( 'woocommerce_prices_include_tax', true );
             if ( $is_tax_inclusive == 'yes' ) {
                 $wps_order_tax = ! empty( get_post_meta( $order_id, 'rbfw_order_tax', true ) ) ? get_post_meta( $order_id, 'rbfw_order_tax', true ) : '';
+                $grand_total = $subtotal;
                 $subtotal      = (float) $subtotal - (float) $wps_order_tax;
                 $subtotal      = rbfw_mps_price( $subtotal ) . '(ex. tax)';
             } else {
@@ -845,18 +846,20 @@ function rbfw_order_meta_box_callback() {
                 <tr>
                     <td><strong><?php rbfw_string( 'rbfw_text_summary', esc_html__( 'Subtotal', 'booking-and-rental-manager-for-woocommerce' ) );
                             echo ':'; ?></strong></td>
-                    <td><?php echo wp_kses_post($subtotal); ?></td>
+                    <td><?php echo wp_kses_post($subtotal, rbfw_allowed_html()); ?></td>
                 </tr>
+                <?php if ( $is_tax_inclusive == 'yes' ) {?>
                 <tr>
                     <td><strong><?php rbfw_string( 'rbfw_text_tax', esc_html__( 'Tax', 'booking-and-rental-manager-for-woocommerce' ) );
                             echo ':'; ?></strong></td>
-                    <td><?php echo esc_html( $rbfw_order_tax ); ?></td>
+                    <td><?php echo wp_kses_post( $rbfw_order_tax, rbfw_allowed_html() ); ?></td>
                 </tr>
                 <tr>
                     <td><strong><?php rbfw_string( 'rbfw_text_total_cost', esc_html__( 'Total Cost', 'booking-and-rental-manager-for-woocommerce' ) );
                             echo ':'; ?></strong></td>
-                    <td><?php echo wp_kses( wc_price( $grand_total ), rbfw_allowed_html() ); ?></td>
+                    <td><?php echo wp_kses( $grand_total, rbfw_allowed_html() ); ?></td>
                 </tr>
+                <?php } ?>
                 </tbody>
             </table>
         </div>
