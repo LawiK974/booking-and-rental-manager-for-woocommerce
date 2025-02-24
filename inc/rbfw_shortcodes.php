@@ -232,8 +232,10 @@ function rbfw_rent_list_shortcode_func($atts = null) {
         $grid_class = ($columns==1 || $columns==2)?'rbfw-w-50':(($columns==3)?'rbfw-w-33':(($columns==4)?'rbfw-w-25':(($columns==5)?'rbfw-w-20':'rbfw-w-20')));
     }
 
-
-    $shoe_result =  $total_posts. ' results. Showing '.$post_count. ' of '. $total_posts. ' of total';
+    $shoe_result =  '';
+    if ($post_count != $total_posts) {
+        $shoe_result =  $total_posts. ' results. Showing '.$post_count. ' of '. $total_posts. ' of total';
+    }
     ?>
     <div class="rbfw_rent_show_result_list_grid_icon_holder">
 
