@@ -887,9 +887,9 @@ function rbfw_order_meta_box_sidebar_callback() {
 /* Save Order Meta Data */
 add_action( 'save_post', 'save_rbfw_order_meta_box' );
 function save_rbfw_order_meta_box( $post_id ) {
-    if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'rbfw_nonce_action' ) ) {
-        return;
-    }
+    // if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'rbfw_nonce_action' ) ) {
+    //     return;
+    // }
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
         return;
     }
