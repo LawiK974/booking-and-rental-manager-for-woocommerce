@@ -409,9 +409,8 @@ function rbfw_add_to_cart_shortcode_func($atts){
 
 
 
-    $post_id = $attributes['id'];
+    $post_id = $attributes['id']? $attributes['id']:$_GET['id'];
     $backend = $attributes['backend']??0;
-
 
 
     if (defined('add_to_cart_id')) {
