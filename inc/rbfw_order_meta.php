@@ -417,7 +417,7 @@ function rbfw_order_meta_box_callback() {
                             <option value="pending" <?php echo selected( $status, 'pending', false ); ?>><?php esc_html_e( 'Pending payment', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
                             <option value="processing" <?php echo selected( $status, 'processing', false ); ?>><?php esc_html_e( 'Processing', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
                             <option value="on-hold" <?php echo selected( $status, 'on-hold', false ); ?>><?php esc_html_e( 'On hold', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
-                            <option value="completed" <?php echo selected( $status, 'completed', false ); ?>><?php esc_html_e( 'Completed', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
+                            <!-- <option value="completed" <?php echo selected( $status, 'completed', false ); ?>><?php esc_html_e( 'Completed', 'booking-and-rental-manager-for-woocommerce' ); ?></option> -->
                             <option value="cancelled" <?php echo selected( $status, 'cancelled', false ); ?>><?php esc_html_e( 'Cancelled', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
                             <option value="refunded" <?php echo selected( $status, 'refunded', false ); ?>><?php esc_html_e( 'Refunded', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
                             <option value="picked" <?php echo selected( $status, 'picked', false ); ?>><?php esc_html_e( 'Picked', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
@@ -507,6 +507,7 @@ function rbfw_order_meta_box_callback() {
             $subtotal = 0;
             foreach ( $ticket_infos as $ticket_info ) {
                 $item_name = ! empty( $ticket_info['ticket_name'] ) ? $ticket_info['ticket_name'] : '';
+                $item_quantity = ! empty( $ticket_info['rbfw_item_quantity'] ) ? $ticket_info['rbfw_item_quantity'] : 1;
                 $rbfw_id   = $ticket_info['rbfw_id'];
                 $item_id   = $rbfw_id;
                 $rent_type = $ticket_info['rbfw_rent_type'];
@@ -562,11 +563,19 @@ function rbfw_order_meta_box_callback() {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td><strong><?php rbfw_string( 'rbfw_text_item_name', esc_html__( 'Item Name', 'booking-and-rental-manager-for-woocommerce' ) );
-                                echo ':'; ?></strong></td>
-                        <td><?php echo esc_html( $item_name ); ?></td>
-                    </tr>
+                    <?php if ( $rent_type == 'bike_car_md' || $rent_type == 'dress' || $rent_type == 'equipment' || $rent_type == 'others' ) { ?>
+                        <tr>
+                            <td><strong><?php rbfw_string( 'rbfw_text_item_name', __( 'Item Name', 'booking-and-rental-manager-for-woocommerce' ) );
+                                    echo ':'; ?></strong></td>
+                            <td><?php echo esc_html( $item_name ) . ' * ' . esc_html( $item_quantity ); ?></td>
+                        </tr>
+                    <?php } else { ?>
+                        <tr>
+                            <td><strong><?php rbfw_string( 'rbfw_text_item_name', __( 'Item Name', 'booking-and-rental-manager-for-woocommerce' ) );
+                                    echo ':'; ?></strong></td>
+                            <td><?php echo esc_html( $item_name ); ?></td>
+                        </tr>
+                    <?php } ?>
                     <tr>
                         <td><strong><?php rbfw_string( 'rbfw_text_item_type', esc_html__( 'Item Type', 'booking-and-rental-manager-for-woocommerce' ) );
                                 echo ':'; ?></strong></td>
