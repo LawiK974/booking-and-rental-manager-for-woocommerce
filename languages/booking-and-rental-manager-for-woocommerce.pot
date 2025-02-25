@@ -4572,7 +4572,7 @@ msgid "Item Quantity"
 msgstr ""
 
 #: lib/classes/class-inventory-page.php:85
-msgid "Item Sold Qty"
+msgid "Item Booked Qty"
 msgstr ""
 
 #: lib/classes/class-inventory-page.php:84

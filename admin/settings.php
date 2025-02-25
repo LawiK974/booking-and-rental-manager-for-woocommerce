@@ -152,7 +152,7 @@ function rbfw_settings_sec_fields_basic( $default_fields ) {
                 'label' => esc_html__( 'Inventory manage based on return', 'booking-and-rental-manager-for-woocommerce' ),
                 'desc' => esc_html__( "If you want to inventory manage based on return, then yes it.", 'booking-and-rental-manager-for-woocommerce' ),
                 'type' => 'select',
-                'default' => 'no',
+                'default' => 'yes',
                 'options' => array(
                     'yes' => 'Yes',
                     'no'  => 'No'

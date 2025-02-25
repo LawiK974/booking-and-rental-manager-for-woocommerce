@@ -295,7 +295,7 @@ function rbfw_get_multiple_date_available_qty($post_id, $start_date, $end_date, 
         }
 
 
-        if ( ($inventory['rbfw_order_status'] == 'completed' || $inventory['rbfw_order_status'] == 'processing' || $inventory['rbfw_order_status'] == 'picked' || ($inventory_based_on_return == 'yes' && $inventory['rbfw_order_status'] == 'returned')) && $partial_stock) {
+        if ( ($inventory['rbfw_order_status'] == 'completed' || $inventory['rbfw_order_status'] == 'processing' || $inventory['rbfw_order_status'] == 'picked' || ($inventory_based_on_return == 'no' && $inventory['rbfw_order_status'] == 'returned')) && $partial_stock) {
 
             if($inventory['rbfw_start_date_ymd'] && $inventory['rbfw_end_date_ymd']){
                 $inventory_start_date = $inventory['rbfw_start_date_ymd'];
@@ -422,7 +422,7 @@ function total_service_quantity($paraent,$service,$date,$inventory,$inventory_ba
 
         $booked_dates = !empty($item['booked_dates']) ? $item['booked_dates'] : [];
 
-        if(in_array($date,$item['booked_dates']) && array_key_exists($paraent,$item['rbfw_service_infos']) && ($item['rbfw_order_status'] == 'completed' || $item['rbfw_order_status'] == 'processing' || $item['rbfw_order_status'] == 'picked' || (($inventory_based_on_return=='yes')?$item['rbfw_order_status'] == 'returned':'')  )){
+        if(in_array($date,$item['booked_dates']) && array_key_exists($paraent,$item['rbfw_service_infos']) && ($item['rbfw_order_status'] == 'completed' || $item['rbfw_order_status'] == 'processing' || $item['rbfw_order_status'] == 'picked' || (($inventory_based_on_return=='no')?$item['rbfw_order_status'] == 'returned':'')  )){
             $inventory_start_date = $booked_dates[0];
             $inventory_end_date = end($booked_dates);
             $inventory_start_time = $item['rbfw_start_time'];
@@ -460,7 +460,7 @@ function total_extra_service_quantity($service,$date,$inventory,$inventory_based
     $total_single_service = 0;
     if(!empty($inventory)){
         foreach($inventory as $item){
-            if(in_array($date,$item['booked_dates'])  && ($item['rbfw_order_status'] == 'completed' || $item['rbfw_order_status'] == 'processing' || $item['rbfw_order_status'] == 'picked' || (($inventory_based_on_return=='yes')?$item['rbfw_order_status'] == 'returned':'') ) && isset($item['rbfw_service_info'][$service])){
+            if(in_array($date,$item['booked_dates'])  && ($item['rbfw_order_status'] == 'completed' || $item['rbfw_order_status'] == 'processing' || $item['rbfw_order_status'] == 'picked' || (($inventory_based_on_return=='no')?$item['rbfw_order_status'] == 'returned':'') ) && isset($item['rbfw_service_info'][$service])){
                 $total_single_service += $item['rbfw_service_info'][$service];
             }
         }
@@ -475,7 +475,7 @@ function total_variant_quantity($field_label,$variation,$date,$inventory,$invent
     foreach($inventory as $item){
         if(!empty($item['rbfw_variation_info'])){
             foreach ($item['rbfw_variation_info'] as $key=>$single){
-                if(in_array($date,$item['booked_dates']) && in_array($variation,$single) && ($item['rbfw_order_status'] == 'completed' || $item['rbfw_order_status'] == 'processing' || $item['rbfw_order_status'] == 'picked' || (($inventory_based_on_return=='yes')?$item['rbfw_order_status'] == 'returned':'')  )){
+                if(in_array($date,$item['booked_dates']) && in_array($variation,$single) && ($item['rbfw_order_status'] == 'completed' || $item['rbfw_order_status'] == 'processing' || $item['rbfw_order_status'] == 'picked' || (($inventory_based_on_return=='no')?$item['rbfw_order_status'] == 'returned':'')  )){
                     $total_single_service += $item['rbfw_item_quantity'];
                 }
             }
@@ -567,11 +567,11 @@ function rbfw_inventory_page_table($query, $date = null, $start_time = null, $en
             <th><?php esc_html_e('Date','booking-and-rental-manager-for-woocommerce'); ?></th>
             <th><?php esc_html_e('Item Name','booking-and-rental-manager-for-woocommerce'); ?></th>
             <th class="rbfw_text_center"><?php esc_html_e('Item Stock','booking-and-rental-manager-for-woocommerce'); ?></th>
-            <th class="rbfw_text_center"><?php esc_html_e('Item Sold Qty','booking-and-rental-manager-for-woocommerce'); ?></th>
+            <th class="rbfw_text_center"><?php esc_html_e('Item Booked Qty','booking-and-rental-manager-for-woocommerce'); ?></th>
             <th class="rbfw_text_center"><?php esc_html_e('Extra Service Stock','booking-and-rental-manager-for-woocommerce'); ?></th>
-            <th class="rbfw_text_center"><?php esc_html_e('Extra Service Sold Qty','booking-and-rental-manager-for-woocommerce'); ?></th>
+            <th class="rbfw_text_center"><?php esc_html_e('Extra Service Booked Qty','booking-and-rental-manager-for-woocommerce'); ?></th>
             <th class="rbfw_text_center"><?php esc_html_e('Category Service','booking-and-rental-manager-for-woocommerce'); ?></th>
-            <th class="rbfw_text_center"><?php esc_html_e('Category Service Sold Qty','booking-and-rental-manager-for-woocommerce'); ?></th>
+            <th class="rbfw_text_center"><?php esc_html_e('Category Service Booked Qty','booking-and-rental-manager-for-woocommerce'); ?></th>
         </tr>
         </thead>
         <tbody>
@@ -655,7 +655,7 @@ function rbfw_inventory_page_table($query, $date = null, $start_time = null, $en
                             $partial_stock = false;
                         }
 
-                        if ( in_array($current_date, $booked_dates) && ($inventory['rbfw_order_status'] == 'completed' || $inventory['rbfw_order_status'] == 'processing' || $inventory['rbfw_order_status'] == 'picked' || (($inventory_based_on_return=='yes')?$inventory['rbfw_order_status'] == 'returned':'')) && $partial_stock ){
+                        if ( in_array($current_date, $booked_dates) && ($inventory['rbfw_order_status'] == 'completed' || $inventory['rbfw_order_status'] == 'processing' || $inventory['rbfw_order_status'] == 'picked' || (($inventory_based_on_return=='no')?$inventory['rbfw_order_status'] == 'returned':'')) && $partial_stock ){
                             $rbfw_type_info = !empty($inventory['rbfw_type_info']) ? $inventory['rbfw_type_info'] : [];
                             $rbfw_variation_info = !empty($inventory['rbfw_variation_info']) ? $inventory['rbfw_variation_info'] : [];
                             $rbfw_service_info = !empty($inventory['rbfw_service_info']) ? $inventory['rbfw_service_info'] : [];
