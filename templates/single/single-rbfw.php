@@ -45,8 +45,8 @@ print_r($rbfw_inventory);
 echo '<pre>';
 exit;*/
 
-
 do_action('rbfw_single_page_before_wrapper');
+do_action('rbfw_breadcrumb');
 if ( post_password_required() ) {
     echo wp_kses(get_the_password_form(),rbfw_allowed_html()); // WPCS: XSS ok.
 } else {

@@ -115,3 +115,17 @@ function custom_taxable_fee() {
     WC()->cart->add_fee(__('Security Deposit', 'booking-and-rental-manager-for-woocommerce'), $total_deposit_amount, false); // 'true' makes it taxable
 }
 
+add_action('rbfw_breadcrumb', 'woocommerce_breadcrumb', 10);
+add_filter( 'woocommerce_get_breadcrumb', 'custom_shop_breadcrumb', 10, 2);
+
+function custom_shop_breadcrumb($crumbs, $Breadcrumb){
+    $shop_page_id = wc_get_page_id('shop'); //Get the shop page ID
+    if($shop_page_id > 0 && !is_shop()) { //Check we got an ID (shop page is set). Added check for is_shop to prevent Home / Shop / Shop as suggested in comments
+        $new_breadcrumb = [
+            _x(get_the_title($shop_page_id), 'breadcrumb', 'woocommerce' ), //Title
+            get_permalink($shop_page_id) // URL
+        ];
+        array_splice($crumbs, 1, 0, [$new_breadcrumb]); //Insert a new breadcrumb after the 'Home' crumb
+    }
+    return $crumbs;
+}
