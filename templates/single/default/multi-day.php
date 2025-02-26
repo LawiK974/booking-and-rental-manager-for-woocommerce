@@ -17,6 +17,7 @@ $slide_style = $rbfw->get_option_trans('super_slider_style', 'super_slider_setti
 ?>
 	<div class="mp_default_theme">
 		<div class="mpContainer">
+			<?php do_action('rbfw_breadcrumb'); ?>
 			<div class="mp_details_page">
                 <?php  if($frontend){ ?>
 				<div class="mp_left_section">
