@@ -1802,6 +1802,7 @@ table.rbfw_room_cart_table th span {
 .rbfw_rent_list_style_grid .rbfw_rent_list_col {
     /*box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.1);*/
     /*box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;*/
+    /* height: 100%; */
     text-align: left;
     vertical-align: top;
 }
@@ -1822,8 +1823,8 @@ table.rbfw_room_cart_table th span {
 }
 
 .rbfw_rent_list_style_grid .rbfw_rent_list_inner_wrapper {
-    /*height: 100%;*/
-    height: auto;
+    height: 100%;
+    /* height: auto; */
     position: relative;
     display: flex;
     flex-direction: column;
