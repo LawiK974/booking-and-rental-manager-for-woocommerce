@@ -119,7 +119,8 @@ add_action('rbfw_breadcrumb', 'woocommerce_breadcrumb', 10);
 add_filter( 'woocommerce_get_breadcrumb', 'custom_shop_breadcrumb', 10, 2);
 
 function custom_shop_breadcrumb($crumbs, $Breadcrumb){
-    $shop_page_id = wc_get_page_id('shop'); //Get the shop page ID
+    //$shop_page_id = wc_get_page_id('shop'); //Get the shop page ID
+    $shop_page_id = get_page_by_title('Rent')->ID; //Get the rent page ID
     if($shop_page_id > 0 && !is_shop()) { //Check we got an ID (shop page is set). Added check for is_shop to prevent Home / Shop / Shop as suggested in comments
         $new_breadcrumb = [
             _x(get_the_title($shop_page_id), 'breadcrumb', 'woocommerce' ), //Title
