@@ -316,15 +316,10 @@ $security_deposit_amount 	= $cart_item['security_deposit_amount'] ? $cart_item['
     $variation_info = $cart_item['rbfw_variation_info'] ? $cart_item['rbfw_variation_info'] : [];
     $total_days = $cart_item['total_days'];
 
-
     $rbfw_extra_service_data = get_post_meta( $rbfw_id, 'rbfw_extra_service_data', true ) ? get_post_meta( $rbfw_id, 'rbfw_extra_service_data', true ) : array();
+    $extra_services = empty($rbfw_extra_service_data) ? array() : array_column($rbfw_extra_service_data,'service_price','service_name');
 
 
-    if(! empty($rbfw_extra_service_data)):
-        $extra_services = array_column($rbfw_extra_service_data,'service_price','service_name');
-    else:
-        $extra_services = array();
-    endif;
 
     $discount_type 	= $cart_item['discount_type'] ? $cart_item['discount_type'] : '';
     $discount_amount 	= $cart_item['discount_amount'] ? $cart_item['discount_amount'] : '';
