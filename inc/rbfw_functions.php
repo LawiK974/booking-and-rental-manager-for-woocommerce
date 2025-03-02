@@ -2597,7 +2597,7 @@
 					$rbfw_start_day = $rbfw_additional_day_price['rbfw_start_day'];
 					if ( $rbfw_start_day <= $total_days && $rbfw_additional_day_price['rbfw_daily_price'] > $discount_percent ) {
 						$discount_percent = $rbfw_additional_day_price['rbfw_daily_price'];
-						$discount_name = " {$rbfw_start_day}" . esc_html($rbfw->get_option_trans('rbfw_text_days', 'rbfw_basic_translation_settings', __('days', 'booking-and-rental-manager-for-woocommerce')));
+						$discount_name = " {$rbfw_start_day} " . esc_html($rbfw->get_option_trans('rbfw_text_days', 'rbfw_basic_translation_settings', __('days', 'booking-and-rental-manager-for-woocommerce')));
 					}
 				}
 
