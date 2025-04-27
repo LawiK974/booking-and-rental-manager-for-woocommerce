@@ -54,8 +54,10 @@
 
 				$args                 = array(
 					'post_type'      => 'rbfw_order',
-					'order'          => 'DESC',
-					'posts_per_page' => - 1
+					'orderby'       => 'rbfw_start_datetime',
+					'order'          => 'ASC',
+					// 'posts_per_page' => $this->posts_per_page,
+					'posts_per_page' => -1,
 				);
 				$query                = new WP_Query( $args );
 				?>
@@ -66,6 +68,7 @@
 					<label for="show-all"><?php esc_attr_e( 'Show all orders.', 'booking-and-rental-manager-for-woocommerce' ); ?> (<strong id="show-all-label">0</strong> hidden)</label>
 					<script>
 						jQuery(document).ready(function ($) {
+							// show/hide returned order
 							var hidden = $('.returned-order').length
 							console.log(hidden);
 							$("#show-all-label").text(hidden);
@@ -83,22 +86,57 @@
 							} else {
 								$('.returned-order').hide();
 							}
+							// Sort table alphabetically by clicking onto header
+							$('th.sortable').click(function(){
+									$('th.sortable').removeClass("headerSortDown");
+									$('th.sortable').removeClass("headerSortUp");
+									var table = $(this).parents('table').eq(0)
+									var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+									this.asc = !this.asc
+									if (!this.asc){
+										rows = rows.reverse()
+										$(this).addClass("headerSortDown");
+									} else {
+										$(this).addClass("headerSortUp");
+									}
+									for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+							})
+							// var defaultSortable = $('th.defaultSort')
+							// var table = defaultSortable.parents('table').eq(0)
+							// var rows = table.find('tr:gt(0)').toArray().sort(comparer(defaultSortable.index()))
+							// this.asc = !this.asc
+							// if (!this.asc){
+							// 	rows = rows.reverse()
+							// 	defaultSortable.addClass("headerSortDown");
+							// } else {
+							// 	defaultSortable.addClass("headerSortUp");
+							// }
+							// for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+							function comparer(index) {
+									return function(a, b) {
+											var valA = getCellValue(a, index), valB = getCellValue(b, index)
+											return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+									}
+							}
+							function getCellValue(row, index){ return $(row).children('td').eq(index).text() }
 						});
+
+
 					</script>
 					<table class="rbfw_order_page_table">
-                        <thead>
-                        <tr>
-                            <th><?php esc_html_e( 'Order', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
-                            <th><?php esc_html_e( 'Billing Name', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
-                            <th><?php esc_html_e( 'Order Created Date', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
-                            <th><?php esc_html_e( 'Booking Start Date', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
-                            <th><?php esc_html_e( 'Booking End Date', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
-                            <th><?php esc_html_e( 'Status', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
-                            <th><?php esc_html_e( 'Total', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
-                            <th><?php esc_html_e( 'Action', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
-                        </tr>
-                        </thead>
-                        <tbody id="order-list">
+						<thead>
+						<tr>
+							<th class="sortable"><?php esc_html_e( 'Order', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
+							<th class="sortable"><?php esc_html_e( 'Billing Name', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
+							<th class="sortable"><?php esc_html_e( 'Order Created Date', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
+							<th class="sortable defaultSort headerSortUp"><?php esc_html_e( 'Booking Start Date', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
+							<th class="sortable"><?php esc_html_e( 'Booking End Date', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
+							<th class="sortable"><?php esc_html_e( 'Status', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
+							<th class="sortable"><?php esc_html_e( 'Total', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
+							<th><?php esc_html_e( 'Action', 'booking-and-rental-manager-for-woocommerce' ); ?></th>
+						</tr>
+						</thead>
+						<tbody id="order-list">
 						<?php if ( $query->have_posts() ) : while ( $query->have_posts() ) : $query->the_post();
 							global $post;
 							$post_id             = $post->ID;
