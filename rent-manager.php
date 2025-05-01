@@ -1,9 +1,8 @@
 <?php
 	/**
-	 * Plugin Name: Booking and Rental Manager for Bike | Car | Resort | Appointment | Dress | Equipment
-	 * Plugin URI: https://github.com/LawiK974/booking-and-rental-manager-for-woocommerce
+	 * Plugin Name: Booking and Rental Manager
 	 * Description: A complete booking & rental solution for WordPress.
-	 * Version: 2.2.7-fork
+	 * Version: 200.2.7-fork
 	 * Author: LawiK974
 	 * Author URI: https://github.com/LawiK974/
 	 * Text Domain: booking-and-rental-manager-for-woocommerce

@@ -1,9 +1,8 @@
 === Booking and Rental Manager for Bike | Car | Resort | Appointment | Dress | Equipment ===
 Contributors: magepeopleteam, aamahin, raselsha, rabiul042
-Plugin link:  https://github.com/LawiK974/booking-and-rental-manager-for-woocommerce
 Tags: booking calendar, Woocommerce Reservation Booking, Rental Booking, Woocommerce Rental Booking, Rental Plugin 
 Requires at least: 5.3
-Stable tag: 2.2.7-fork
+Stable tag: 200.2.7-fork
 Tested up to: 6.7.1
 Requires PHP: 7.0
 License: GPLv2 or later
