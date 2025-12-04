@@ -1891,6 +1891,10 @@ input#rbfw_features_search_icon {
   background: #c6e1c6;
   color: #5b841b;
 }
+.rbfw_order_page_table .rbfw_order_status.accepted {
+  background: #c6e1c6;
+  color: #5b841b;
+}
 
 .rbfw_order_page_table .rbfw_order_status.completed {
   background: #c8d7e1;

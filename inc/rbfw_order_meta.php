@@ -414,14 +414,15 @@ function rbfw_order_meta_box_callback() {
                     <td><strong><?php rbfw_string( 'rbfw_text_status', esc_html__( 'Status', 'booking-and-rental-manager-for-woocommerce' ) ); ?></strong></td>
                     <td>
                         <select name="rbfw_order_status">
-                            <option value="pending" <?php echo selected( $status, 'pending', false ); ?>><?php esc_html_e( 'Pending payment', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
-                            <option value="processing" <?php echo selected( $status, 'processing', false ); ?>><?php esc_html_e( 'Processing', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
+                            <!-- <option value="pending" <?php echo selected( $status, 'pending', false ); ?>><?php esc_html_e( 'Pending payment', 'booking-and-rental-manager-for-woocommerce' ); ?></option> -->
                             <option value="on-hold" <?php echo selected( $status, 'on-hold', false ); ?>><?php esc_html_e( 'On hold', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
+                            <option value="accepted" <?php echo selected( $status, 'accepted', false ); ?>><?php esc_html_e( 'Accepted', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
+                            <!-- <option value="processing" <?php echo selected( $status, 'processing', false ); ?>><?php esc_html_e( 'Accepted', 'booking-and-rental-manager-for-woocommerce' ); ?></option> -->
                             <!-- <option value="completed" <?php echo selected( $status, 'completed', false ); ?>><?php esc_html_e( 'Completed', 'booking-and-rental-manager-for-woocommerce' ); ?></option> -->
                             <option value="cancelled" <?php echo selected( $status, 'cancelled', false ); ?>><?php esc_html_e( 'Cancelled', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
-                            <option value="refunded" <?php echo selected( $status, 'refunded', false ); ?>><?php esc_html_e( 'Refunded', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
-                            <option value="picked" <?php echo selected( $status, 'picked', false ); ?>><?php esc_html_e( 'Picked', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
-                            <option value="returned" <?php echo selected( $status, 'returned', false ); ?>><?php esc_html_e( 'Returned', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
+                            <!-- <option value="refunded" <?php echo selected( $status, 'refunded', false ); ?>><?php esc_html_e( 'Refunded', 'booking-and-rental-manager-for-woocommerce' ); ?></option> -->
+                            <!-- <option value="picked" <?php echo selected( $status, 'picked', false ); ?>><?php esc_html_e( 'Picked', 'booking-and-rental-manager-for-woocommerce' ); ?></option> -->
+                            <option value="returned" <?php echo selected( $status, 'returned', false ); ?>><?php esc_html_e( 'Completed', 'booking-and-rental-manager-for-woocommerce' ); ?></option>
                         </select>
                     </td>
                 </tr>
@@ -926,7 +927,7 @@ function save_rbfw_order_meta_box( $post_id ) {
             $current_status_update = get_post_meta( $post_id, 'rbfw_order_status_revision', true );
             $current_status        = get_post_meta( $post_id, 'rbfw_order_status', true );
             $current_status_wc     = $current_status;
-            if ( $current_status == 'picked' ) {
+            if ( $current_status == 'picked' || $current_status == 'accepted' ) {
                 $current_status_wc = 'processing';
             }
             if ( $current_status == 'returned' ) {

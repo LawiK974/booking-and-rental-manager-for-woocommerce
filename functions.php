@@ -130,3 +130,8 @@ function custom_shop_breadcrumb($crumbs, $Breadcrumb){
     }
     return $crumbs;
 }
+
+add_filter( 'woocommerce_cod_process_payment_order_status', 'change_cod_payment_order_status', 10, 2 );
+function change_cod_payment_order_status( $order_status, $order ) {
+    return 'on-hold';
+}

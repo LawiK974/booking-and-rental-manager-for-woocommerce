@@ -602,7 +602,7 @@
 				foreach ( $order->get_items() as $item_values ) {
 					$rbfw_id = $item_values->get_meta( '_rbfw_id' );
 					if ( get_post_type( $rbfw_id ) == $this->get_cpt_name() ) {
-						if ( $order->has_status( 'processing' ) ) {
+						if ( $order->has_status( 'processing' ) || $order->has_status( 'accepted' ) ) {
 							do_action( 'rbfw_wc_order_status_change', $order_status, $rbfw_id, $order_id );
 						}
 						if ( $order->has_status( 'pending' ) ) {
