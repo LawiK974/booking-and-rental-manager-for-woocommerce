@@ -51,41 +51,55 @@
 
 			public function rbfw_order_list() {
 
+				$show_all = isset( $_GET['show_all'] ) && $_GET['show_all'] === '1';
+				$is_asc = isset( $_GET['asc'] ) && $_GET['asc'] === '1';
 
 				$args                 = array(
 					'post_type'      => 'rbfw_order',
 					'orderby'       => 'rbfw_start_datetime',
-					'order'          => 'ASC',
-					// 'posts_per_page' => $this->posts_per_page,
-					'posts_per_page' => -1,
+					'order'          => $is_asc ? 'ASC': 'DESC',
+					'posts_per_page' => $this->posts_per_page,
+					// 'posts_per_page' => -1,
 				);
+
+				if ( ! $show_all ) {
+					$args['meta_query'] = array(
+						array(
+							'key'     => 'rbfw_order_status',
+							'value'   => array( 'cancelled', 'returned', 'completed' ),
+							'compare' => 'NOT IN',
+						),
+					);
+				}
+
 				$query                = new WP_Query( $args );
 				?>
                 <div class="rbfw_order_page_wrap wrap">
                     <h1 class="awesome-heading"><?php esc_html_e( 'Order List', 'booking-and-rental-manager-for-woocommerce' ); ?></h1>
                     <input type="text" id="search" class="search-input awesome-search" placeholder="<?php esc_attr_e( 'Search by order id or customer name..', 'booking-and-rental-manager-for-woocommerce' ); ?>"/>
-					<input type="checkbox" id="show-all" class="show-all-checkbox" style="margin-left: 10px;"/>
-					<label for="show-all"><?php esc_attr_e( 'Show all orders.', 'booking-and-rental-manager-for-woocommerce' ); ?> (<strong id="show-all-label">0</strong> hidden)</label>
+					<input type="checkbox" id="show-all" class="show-all-checkbox" style="margin-left: 10px;" <?php checked( $show_all, true ); ?>/>
+					<label for="show-all"><?php esc_attr_e( 'Show cancelled and completed orders.', 'booking-and-rental-manager-for-woocommerce' ); ?></label>
 					<script>
 						jQuery(document).ready(function ($) {
 							// show/hide returned order
 							var hidden = $('.returned-order').length
 							console.log(hidden);
 							$("#show-all-label").text(hidden);
-							$('#show-all').change(function () {
+							$('#show-all').change(function (e) {
+								e.preventDefault();
+								var url = new URL(window.location.href);
 								if ($(this).is(':checked')) {
-									$("#show-all-label").text("0");
-									$('.returned-order').show();
+									url.searchParams.set('show_all', '1');
+									// $("#show-all-label").text("0");
+									// $('.returned-order').show();
 								} else {
-									$('.returned-order').hide();
-									$("#show-all-label").text(hidden);
+									url.searchParams.delete('show_all');
+									// $('.returned-order').hide();
+									// $("#show-all-label").text(hidden);
 								}
+								window.location.href = url.toString();
 							});
-							if ($('#show-all').is(':checked')) {
-								$('.returned-order').show();
-							} else {
-								$('.returned-order').hide();
-							}
+							
 							// Sort table alphabetically by clicking onto header
 							$('th.sortable').click(function(){
 									$('th.sortable').removeClass("headerSortDown");
