@@ -58,8 +58,8 @@
 					'post_type'      => 'rbfw_order',
 					'orderby'       => 'rbfw_start_datetime',
 					'order'          => $is_asc ? 'ASC': 'DESC',
-					'posts_per_page' => $this->posts_per_page,
-					// 'posts_per_page' => -1,
+					// 'posts_per_page' => $this->posts_per_page,
+					'posts_per_page' => -1,
 				);
 
 				if ( ! $show_all ) {
